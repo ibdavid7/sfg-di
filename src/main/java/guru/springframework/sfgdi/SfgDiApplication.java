@@ -1,10 +1,15 @@
 package guru.springframework.sfgdi;
 
 import guru.springframework.sfgdi.controllers.*;
+import guru.springframework.sfgdi.services.PrototypeBean;
+import guru.springframework.sfgdi.services.SingletonBean;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.ComponentScan;
 
+//@ComponentScan(basePackages = {"guru.springframework.sfgdi", "guru.springframework.pets"})	//no longer needed as
+// config file takes care of all config set-up; now pets package is effectively 3rd party library
 @SpringBootApplication
 public class SfgDiApplication {
 
@@ -34,6 +39,18 @@ public class SfgDiApplication {
 		System.out.println("-------- Constructor" );
 		ConstructorInjectedController constructorInjectedController = (ConstructorInjectedController) ctx.getBean("constructorInjectedController");
 		System.out.println(constructorInjectedController.getGreeting());
+
+		System.out.println("-------- Singleton Bean" );
+		SingletonBean singletonBean = (SingletonBean) ctx.getBean(SingletonBean.class);
+		singletonBean.getMyScope();
+
+		System.out.println("-------- Prototype Bean" );
+		PrototypeBean prototypeBean1 = (PrototypeBean) ctx.getBean(PrototypeBean.class);
+		prototypeBean1.getMyScope();
+
+		PrototypeBean prototypeBean2 = (PrototypeBean) ctx.getBean(PrototypeBean.class);
+		prototypeBean2.getMyScope();
+
 	}
 
 }
