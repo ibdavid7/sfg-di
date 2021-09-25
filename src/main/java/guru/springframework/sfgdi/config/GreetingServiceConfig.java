@@ -8,22 +8,42 @@ import guru.springframework.sfgdi.repositories.EnglishGreetingRepository;
 import guru.springframework.sfgdi.repositories.EnglishGreetingRepositoryImpl;
 import guru.springframework.sfgdi.services.*;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.*;
 
 
 //@ImportResource("classpath:sfgdi-config.xml")
-@PropertySource("classpath:datasource.properties")
+//@PropertySource("classpath:datasource.properties")
+@EnableConfigurationProperties({SfgConstructorConfig.class})
 @Configuration
 public class GreetingServiceConfig {
 
+//    @Bean
+//    FakeDataSource fakeDataSource(@Value("${guru.username}") String username,
+//                                  @Value("${guru.password}") String password,
+//                                  @Value("${guru.jdbcURL}") String jdbcURL) {
+//        FakeDataSource fakeDataSource = new FakeDataSource();
+//        fakeDataSource.setUsername(username);
+//        fakeDataSource.setPassword(password);
+//        fakeDataSource.setJdbcURL(jdbcURL);
+//        return fakeDataSource;
+//    }
+
+//    @Bean
+//    FakeDataSource fakeDataSource(SfgConfiguration sfgConfiguration) {
+//        FakeDataSource fakeDataSource = new FakeDataSource();
+//        fakeDataSource.setUsername(sfgConfiguration.getUsername());
+//        fakeDataSource.setPassword(sfgConfiguration.getPassword());
+//        fakeDataSource.setJdbcURL(sfgConfiguration.getJdbcURL());
+//        return fakeDataSource;
+//    }
+
     @Bean
-    FakeDataSource fakeDataSource(@Value("${guru.username}") String username,
-                                  @Value("${guru.password}") String password,
-                                  @Value("${guru.jdbcURL}") String jdbcURL) {
+    FakeDataSource fakeDataSource(SfgConstructorConfig sfgConstructorConfig) {
         FakeDataSource fakeDataSource = new FakeDataSource();
-        fakeDataSource.setUsername(username);
-        fakeDataSource.setPassword(password);
-        fakeDataSource.setJdbcURL(jdbcURL);
+        fakeDataSource.setUsername(sfgConstructorConfig.getUsername());
+        fakeDataSource.setPassword(sfgConstructorConfig.getPassword());
+        fakeDataSource.setJdbcURL(sfgConstructorConfig.getJdbcURL());
         return fakeDataSource;
     }
 
